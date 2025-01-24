@@ -16,16 +16,39 @@ document.getElementById("predict").addEventListener("click", function () {
         return;
     }
 
-    // Example logic for predictions (replace with actual logic if needed)
     const bmi = weight / ((height / 100) ** 2);
-    const tgLevel = 100 + (bmi >= 30 ? 50 : 0) + (activityDays < 3 ? 30 : 0) + (sugaryDrinks > 3 ? 40 : 0) + (alcoholDrinks > 2 ? 20 : 0);
-    const hdlLevel = (gender === "male" ? 55 : 65) - (smoking ? 10 : 0) - (healthyFats < 3 ? 5 : 0) - (diabetes ? 15 : 0) - (age > 50 ? 5 : 0);
 
-    const result = {
-        "BMI": bmi.toFixed(2),
-        "Triglyceride Level (mg/dL)": tgLevel,
-        "HDL Level (mg/dL)": hdlLevel,
-    };
+    let tgLevel = 100;
+    tgLevel += bmi >= 30 ? 50 : 0;
+    tgLevel += activityDays < 3 ? 30 : 0;
+    tgLevel += sugaryDrinks > 3 ? 40 : 0;
+    tgLevel += alcoholDrinks > 2 ? 20 : 0;
 
-    document.getElementById("result").innerText = `BMI: ${result.BMI}\nTriglyceride Level: ${result["Triglyceride Level (mg/dL)"]} mg/dL\nHDL Level: ${result["HDL Level (mg/dL)"]} mg/dL`;
+    let hdlLevel = gender === "male" ? 55 : 65;
+    hdlLevel -= smoking ? 10 : 0;
+    hdlLevel -= healthyFats < 3 ? 5 : 0;
+    hdlLevel -= diabetes ? 15 : 0;
+    hdlLevel -= age > 50 ? 5 : 0;
+
+    const cmi = (tgLevel / hdlLevel) * (waist / height);
+    const baselineTLevel = age >= 19 && age <= 39 ? Math.random() * (620 - 580) + 580 :
+                           age >= 40 && age <= 59 ? Math.random() * (500 - 460) + 460 :
+                           Math.random() * (400 - 360) + 360;
+
+    const testosteroneChange = cmi * -14.89 + (diabetes ? -20 : 0);
+    const predictedTLevel = Math.max(0, baselineTLevel + testosteroneChange);
+
+    const testosteroneDeficiencyRisk = ((1.16 ** cmi) - 1) * 100;
+    const riskCategory = testosteroneDeficiencyRisk < 10 ? "Optimal" :
+                         testosteroneDeficiencyRisk < 20 ? "Suboptimal" :
+                         testosteroneDeficiencyRisk < 40 ? "Moderate Risk" :
+                         testosteroneDeficiencyRisk < 80 ? "High Risk" : "Severe Risk";
+
+    document.getElementById("result").innerHTML = `
+        <h2>Your Health Metrics</h2>
+        <p><b>BMI:</b> ${bmi.toFixed(2)}</p>
+        <p><b>Baseline Testosterone:</b> ${baselineTLevel.toFixed(2)} ng/dL</p>
+        <p><b>Predicted Testosterone:</b> ${predictedTLevel.toFixed(2)} ng/dL</p>
+        <p><b>Risk of Testosterone Deficiency:</b> ${riskCategory}</p>
+    `;
 });
