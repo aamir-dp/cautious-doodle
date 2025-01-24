@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testosterone Prediction</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Testosterone Predictor</h1>
+        <h2>Enter Your Details</h2>
+        
+        <div class="input-group">
+            <label for="weight">Weight (kg):</label>
+            <input type="number" id="weight" placeholder="Enter weight">
+        </div>
+
+        <div class="input-group">
+            <label for="height">Height (cm):</label>
+            <input type="number" id="height" placeholder="Enter height">
+        </div>
+
+        <div class="input-group">
+            <label for="waist">Waist Circumference (cm):</label>
+            <input type="number" id="waist" placeholder="Enter waist circumference">
+        </div>
+
+        <div class="input-group">
+            <label for="activity">Activity Days/Week:</label>
+            <input type="number" id="activity" placeholder="0-7">
+        </div>
+
+        <div class="input-group">
+            <label for="sugary-drinks">Sugary Drinks/Week:</label>
+            <input type="number" id="sugary-drinks" placeholder="Enter quantity">
+        </div>
+
+        <div class="input-group">
+            <label for="alcohol-drinks">Alcoholic Drinks/Week:</label>
+            <input type="number" id="alcohol-drinks" placeholder="Enter quantity">
+        </div>
+
+        <div class="input-group">
+            <label for="smoking">Smoking:</label>
+            <select id="smoking">
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="healthy-fats">Healthy Fats Intake (servings/week):</label>
+            <input type="number" id="healthy-fats" placeholder="Enter quantity">
+        </div>
+
+        <div class="input-group">
+            <label for="age">Age:</label>
+            <input type="number" id="age" placeholder="Enter your age">
+        </div>
+
+        <div class="input-group">
+            <label for="gender">Gender:</label>
+            <select id="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="diabetes">Diabetes:</label>
+            <select id="diabetes">
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+        </div>
+
+        <button id="predict">Predict Testosterone Levels</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
