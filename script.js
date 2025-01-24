@@ -44,11 +44,39 @@ document.getElementById("predict").addEventListener("click", function () {
                          testosteroneDeficiencyRisk < 40 ? "Moderate Risk" :
                          testosteroneDeficiencyRisk < 80 ? "High Risk" : "Severe Risk";
 
+    const chartUrl = `https://quickchart.io/chart?c=${encodeURIComponent(JSON.stringify({
+        type: "doughnut",
+        data: {
+            datasets: [
+                {
+                    data: [predictedTLevel, baselineTLevel - predictedTLevel, 1000 - baselineTLevel],
+                    backgroundColor: ["#ff3333", "#00cc44", "#e6e6e6"],
+                    borderWidth: 0,
+                },
+            ],
+            labels: ["Predicted Testosterone", "Baseline", "Max Capacity"],
+        },
+        options: {
+            rotation: Math.PI,
+            circumference: Math.PI,
+            cutoutPercentage: 70,
+            plugins: { datalabels: { display: false } },
+            title: {
+                display: true,
+                text: "Your Testosterone Distribution",
+                fontSize: 18,
+            },
+        },
+    }))}`;
+
     document.getElementById("result").innerHTML = `
         <h2>Your Health Metrics</h2>
         <p><b>BMI:</b> ${bmi.toFixed(2)}</p>
         <p><b>Baseline Testosterone:</b> ${baselineTLevel.toFixed(2)} ng/dL</p>
         <p><b>Predicted Testosterone:</b> ${predictedTLevel.toFixed(2)} ng/dL</p>
         <p><b>Risk of Testosterone Deficiency:</b> ${riskCategory}</p>
+        <div class="chart">
+            <img src="${chartUrl}" alt="Testosterone Doughnut Chart" />
+        </div>
     `;
 });
